@@ -2,7 +2,14 @@
     "compilerOptions": {
         "experimentalDecorators": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "c/jcvValidatorClass": [
+                "jcvValidatorClass/jcvValidatorClass.js"
+            ],
+            "c/jcvRecordEditForm": [
+                "jcvRecordEditForm/jcvRecordEditForm.js"
+            ]
+        }
     },
     "include": [
         "**/*",
