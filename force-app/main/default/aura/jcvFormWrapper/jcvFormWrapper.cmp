@@ -1,0 +1,4 @@
+<aura:component implements="lightning:isUrlAddressable,lightning:actionOverride, force:lightningQuickActionWithoutHeader,force:hasSObjectName" description="c:helloTarget component">
+    <aura:attribute name="sObjectName" type="String" />
+    <c:jcvNewRecordForm objectApiName="{!v.sObjectName}" onclose="{!c.closeQA}" onnewobject="{!c.handleNewObject}"></c:jcvNewRecordForm>
+</aura:component>
