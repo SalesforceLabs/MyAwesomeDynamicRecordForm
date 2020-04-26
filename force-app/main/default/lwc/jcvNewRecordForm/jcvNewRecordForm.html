@@ -1,15 +1,95 @@
 <template>
-        <template if:true={cargado}>
-            <template if:true={isList}>
-                <lightning-combobox
-                    name="progre"
-                    label="Record Type"
-                    value={recordTypeId}
-                    placeholder="Select Record Type"
-                    options={option}
-                    onchange={handleChangeRt} >
-                </lightning-combobox>
-            </template>
-
+    <template if:true={cargado}>
+        <template if:true={isList}>
+            <lightning-combobox
+                name="progre"
+                label="Record Type"
+                value={recordTypeId}
+                placeholder="Select Record Type"
+                options={option}
+                onchange={handleChangeRt} >
+            </lightning-combobox>
         </template>
+
+    </template>
+
+    <lightning-card >
+        <div class="slds-p-around_xxx-small">
+
+                <template if:true={infoSectionsLayout}>
+                    
+                    <lightning-accordion allow-multiple-sections-open>
+                        <template for:each={infoSectionsLayout} for:item="sectionsLayout">
+                            <lightning-accordion-section name={sectionsLayout.id} label={sectionsLayout.heading} key={sectionsLayout.id}>
+                                
+                                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} style="width: 100%;" >
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
+                                                        <template if:true={field.boleanoColumnas}>
+                                                                
+                                                                <lightning-input-field 
+                                                                    key={field.key}
+                                                                    data-fieldapiname={field.apiName}
+                                                                    required={field.metadata.computedIsRequired}
+                                                                    disabled={field.metadata.computedIsReadOnly}
+                                                                    field-name={field.apiName}
+                                                                    value={field.fieldValue}
+                                                                    onchange={handleField}>
+                                                                </lightning-input-field>
+                                                            
+                                                        </template>
+                                                
+                                            </template>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
+                                                        <template if:false={field.boleanoColumnas}>
+
+                                                            <template if:false={field.metadata.isPicklist}>
+                                                                
+                                                                <lightning-input-field 
+                                                                    key={field.key}
+                                                                    data-fieldapiname={field.apiName}
+                                                                    required={field.metadata.computedIsRequired}
+                                                                    disabled={field.metadata.computedIsReadOnly}
+                                                                    field-name={field.apiName}
+                                                                    value={field.fieldValue}
+                                                                    onchange={handleField}>
+                                                                </lightning-input-field>
+                                                            
+                                                            
+                                                            
+                                                            </template>                                                            
+                                                        </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    </lightning-record-edit-form>
+        
+        
+        
+                            
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+        
+                </template>   
+        
+        </div>
+        <div class="slds-p-around_medium">
+            <lightning-button
+                variant="brand"
+                type="submit"
+                name="save"
+                label="Save"
+                onclick={handleClick}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+
+
+
+
+
 </template>

@@ -232,6 +232,15 @@ export default class JcvNewRecordForm extends LightningElement {
     
     }
 
+    handleField(evt) {
+       
+        console.log(evt.target.fieldName);
+        console.log(evt.target.value);
+
+  
+      }
+
+
 
     getField(layoutItem, layoutComponent){
         var Field = {};
