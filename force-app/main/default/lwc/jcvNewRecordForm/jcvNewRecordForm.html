@@ -1,3 +1,15 @@
 <template>
-    
+        <template if:true={cargado}>
+            <template if:true={isList}>
+                <lightning-combobox
+                    name="progre"
+                    label="Record Type"
+                    value={recordTypeId}
+                    placeholder="Select Record Type"
+                    options={option}
+                    onchange={handleChangeRt} >
+                </lightning-combobox>
+            </template>
+
+        </template>
 </template>
