@@ -337,8 +337,20 @@ export default class JcvNewRecordForm extends LightningElement {
         var rtName = this.jsonRt[this.recordTypeId];
         this.getRtRules(rtName);
     }
+    
+    handleChange(event) {
+
+    } 
+
+    loadParent(evt)
+    {
+        
+        var parentFieldName = evt.detail.fieldApiName;
+        var id = evt.detail.id;
+        var parentFields = evt.detail.fields.fields;
 
 
+    }
 
 
 

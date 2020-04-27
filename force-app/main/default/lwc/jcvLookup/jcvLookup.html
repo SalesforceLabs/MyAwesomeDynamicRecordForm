@@ -1,0 +1,23 @@
+<template>
+    <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}>
+        <template if:true={disabled}>
+            <lightning-input-field 
+                data-fieldapiname={apiName}
+                field-name={apiName}
+                value={value}
+                required={required}
+                onchange={handleChange}
+                disabled>
+            </lightning-input-field>
+        </template>
+        <template if:false={disabled}>
+            <lightning-input-field 
+                data-fieldapiname={apiName}
+                field-name={apiName}
+                value={value}
+                required={required}
+                onchange={handleChange}>
+            </lightning-input-field>
+        </template>
+    </lightning-record-edit-form>
+</template> 

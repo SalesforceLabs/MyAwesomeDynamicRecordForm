@@ -11,6 +11,9 @@
             ],
             "c/jcvNewRecordForm": [
                 "jcvNewRecordForm/jcvNewRecordForm.js"
+            ],
+            "c/jcvLookup": [
+                "jcvLookup/jcvLookup.js"
             ]
         }
     },
