@@ -205,7 +205,7 @@ export default class JcvNewRecordForm extends LightningElement {
                                 count = count +1;
                                 Field.boleanoColumnas =boleanoColumnas;
                                 Field.key='0000'+i+j+k+l;
-                                boleanoColumnas = !boleanoColumnas;
+                                
         
                                 this.sectionsInForm[section].push(apiNamef);
                                 FieldList.push(Field);
@@ -214,6 +214,7 @@ export default class JcvNewRecordForm extends LightningElement {
 
                         
                         }
+                        boleanoColumnas = !boleanoColumnas;
                         
 
                     }
