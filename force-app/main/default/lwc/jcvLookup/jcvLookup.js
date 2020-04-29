@@ -27,7 +27,7 @@ export default class JcvLookup extends LightningElement {
         }
     }
 
-    @wire(getRecordUi, { recordIds: '$recordParent', layoutTypes: 'Full', modes: 'Edit'})
+    @wire(getRecordUi, { recordIds: '$recordParent', layoutTypes: 'Full', modes: 'Edit', dummy: '$time'})
     dcrRecordUi(response) {
         let error = response && response.error;
         let data = response && response.data;
