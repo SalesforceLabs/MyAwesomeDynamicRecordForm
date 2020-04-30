@@ -52,6 +52,8 @@ export default class JcvNewRecordForm extends LightningElement {
     dataTypeAllFields = new Map();
     dependences = new Map();
     dependent = new Map();
+
+    queueFieldUpdate =[]; 
     
 
     rules;
@@ -66,7 +68,7 @@ export default class JcvNewRecordForm extends LightningElement {
                     if(this.recordTypeId == '')
                     {
                         this.recordTypeId =rt;
-                        this.getRtRules(data[rt]);
+                        //this.getRtRules(data[rt]);
                     }
                     
                     console.log(rt);
@@ -79,7 +81,7 @@ export default class JcvNewRecordForm extends LightningElement {
                 }
                 if(this.recordTypeId == '')
                 {
-                    this.getRtRules('Master');
+                    //this.getRtRules('Master');
                 }
                 this.cargado = true;
             }else if(error){
@@ -151,18 +153,18 @@ export default class JcvNewRecordForm extends LightningElement {
 
         
 
-        if (data && this.hasRendered === false) {
+        if (data && this.recordId) {
             console.log('Inicializando dcRecordUi...');
 
             var record = data.records[this.recordId];
 
             if(!this.rules)
             {
-                if(this.recordTypeInfo)
+                if(record.recordTypeInfo)
                 {
                     this.recordTypeId = record.recordTypeId;
                     console.log(this.recordTypeId);
-                    var rtName = this.jsonRt[this.recordTypeId];
+                    var rtName = record.recordTypeInfo.name;
                     this.getRtRules(rtName);
                 }
                 else
@@ -245,10 +247,11 @@ export default class JcvNewRecordForm extends LightningElement {
         var Field;
         var FieldList = [];
         var timestamp = Date.now();
-        this.formulario ={};
+        
 
         console.log('Inicializando dcrRecordCreateUi...');
-        if (data) {
+        if (data && !this.recordId) {
+            this.formulario ={};
 
             console.log('Inicializando dcRecordUi...');
 
@@ -256,7 +259,6 @@ export default class JcvNewRecordForm extends LightningElement {
             {
                 if(this.recordTypeInfo)
                 {
-                    this.recordTypeId = record.recordTypeId;
                     console.log(this.recordTypeId);
                     var rtName = this.jsonRt[this.recordTypeId];
                     this.getRtRules(rtName);
@@ -267,9 +269,6 @@ export default class JcvNewRecordForm extends LightningElement {
                     this.getRtRules('Master');
                 }
             }
-
-
-
 
             var listLayout = data.layout.sections;
 
@@ -324,80 +323,9 @@ export default class JcvNewRecordForm extends LightningElement {
             }
             
             console.log('Finalizado dcRecordUi...');
-
-
-
-
-/*
-            if(!this.rules)
-            {
-                if(this.recordTypeInfo)
-                {
-                    this.recordTypeId = record.recordTypeId;
-                    console.log(this.recordTypeId);
-                    var rtName = this.jsonRt[this.recordTypeId];
-                    this.getRtRules(rtName);
-                }
-                else
-                {
-                    console.log('getRtRules para master');
-                    this.getRtRules('Master');
-                }
-            }
-
-            var listLayout = data.layout.sections;
-            for (let i = 0; i < listLayout.length; i++) {
-                LayoutSection = {};
-                FieldList = [];
-                var count = 0;
-    
-                console.log(listLayout[i].heading);
-                
-                let section = listLayout[i].heading;
-                this.sectionsInForm[section] = [];
-
-                for (let j = 0; j < listLayout[i].layoutRows.length; j++) {
-                    var boleanoColumnas = true;
-                    for (let k = 0; k < listLayout[i].layoutRows[j].layoutItems.length; k++) {
-
-                        let label = listLayout[i].layoutRows[j].layoutItems[k].label;
-                        console.log(JSON.stringify(listLayout[i].layoutRows[j].layoutItems[k]));
-                        if(listLayout[i].layoutRows[j].layoutItems[k].layoutComponents){
-                            for(let l=0; l<listLayout[i].layoutRows[j].layoutItems[k].layoutComponents.length; l++){
-                            }
-                        }
-                        else{
-
-                        }
-
-                    }
-                }
-
-
-
-
-            }
-
-*/
-
-
-
-
-
-
-
-
-
             
         }
-
-
-
-
         console.log('Finalizando dcrRecordCreateUi...');
-
-
-
     }
 
 
@@ -500,7 +428,7 @@ export default class JcvNewRecordForm extends LightningElement {
         getRules({objectName: this.objectApiName, recordTypeName: recordType})
             .then(result => {
                 this.rules = JSON.parse(result);
-                this.doAllActions();
+                //this.doAllActions();
             })
             .catch(error => {
                 this.error = error;
@@ -720,7 +648,7 @@ export default class JcvNewRecordForm extends LightningElement {
     }
   
     doValue(field, event)
-      {
+    {
         var seccion = this.formulario[field].seccion;
         var posicion = this.formulario[field].posicion;
   
@@ -743,7 +671,7 @@ export default class JcvNewRecordForm extends LightningElement {
           this.infoSectionsLayout[seccion].lstFields[posicion].fieldValue = value;
           ((this.infoSectionsLayout[seccion].lstFields[posicion])[field]).fieldValue =  value;
         }
-  
+        this.queueFieldUpdate.push(field);
   
   
     }
@@ -820,7 +748,7 @@ export default class JcvNewRecordForm extends LightningElement {
   
           var actions = this.rules[field].actions;
           //miro a ver si hay acciones para relizar sobre el campo modificado
-          if(actions.length > 0)
+            if(actions.length > 0)
           {
             for (var j=0; j <actions.length; j++ )
             {
@@ -829,7 +757,16 @@ export default class JcvNewRecordForm extends LightningElement {
                 this.doEvents(actions[j].events);
               }   
             }
-          }
+            }
+
+            while(this.queueFieldUpdate.length > 0)
+            {
+                var newField = this.queueFieldUpdate[0];
+                console.log('hay que procesar un cambio en ' + this.queueFieldUpdate[0]);
+                this.queueFieldUpdate.splice(0, 1);
+                this.doTheWork(newField);
+            }
+
           
         }
     }
