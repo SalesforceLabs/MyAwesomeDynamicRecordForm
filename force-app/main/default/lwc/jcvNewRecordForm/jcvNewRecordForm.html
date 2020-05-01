@@ -36,94 +36,140 @@
                                 
                                 <lightning-accordion allow-multiple-sections-open>
                                     <template for:each={infoSectionsLayout} for:item="sectionsLayout">
-                                        <lightning-accordion-section name={sectionsLayout.id} label={sectionsLayout.heading} key={sectionsLayout.id}>
-                                            
-                                            <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} style="width: 100%;" >
-                                                <div class="slds-grid">
-                                                    <div class="slds-col slds-size_1-of-2">
-                                                        <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
-                                                                    <template if:true={field.boleanoColumnas}>
-                                                                        <template if:true={field.metadata.isReference}>
-                                                                            <div class="lgc-bg" key={field.key}>
-                                                                                <c-jcv-lookup
-                                                                                    data-fieldapiname={field.apiName}
-                                                                                    api-name={field.apiName}
-                                                                                    value={field.fieldValue}
-                                                                                    disabled={field.isReadOnly} 
-                                                                                    time={field.ts}
-                                                                                    required={field.isRequired}
-                                                                                    record-id={recordId}
-                                                                                    record-parent={field.fieldValue}
-                                                                                    object-api-name={objectApiName}
-                                                                                    onchange={handleChange}
-                                                                                    onloaddata={loadParent}>
-                                                                                </c-jcv-lookup>
-                                                                            </div>
-                                                                        </template>
-                                                                        <template if:false={field.metadata.isReference}>
-                                                                        
-                                                                            
-                                                                            <lightning-input-field 
-                                                                                key={field.key}
-                                                                                data-fieldapiname={field.apiName}
-                                                                                variant= "label-inline"
-                                                                                required={field.metadata.computedIsRequired}
-                                                                                disabled={field.metadata.computedIsReadOnly}
-                                                                                field-name={field.apiName}
-                                                                                value={field.fieldValue}
-                                                                                onchange={handleField}>
-                                                                            </lightning-input-field>
-                                                                        </template>
-                                                                    </template>
+                                        <template if:true={sectionsLayout.show}>
+                                            <template if:true={sectionsLayout.fakeFields}>
+                                                <div key = {sectionsLayout.Id} class="slds-p-around_medium">
+
+                                                    <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">
+                                                            
+
+                                                        <template if:true={field.isToogle}>
+                                                            <lightning-input type="toggle" label={field.label} name={field.apiName} key={field.apiName} onchange={handleField}></lightning-input>
                                                         </template>
-                                                    </div>
-                                                    <div class="slds-col slds-size_1-of-2">
-                                                        <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
-                                                                    <template if:false={field.boleanoColumnas}>
-            
-                                                                        <template if:true={field.metadata.isReference}>
-                                                                            <div class="lgc-bg" key={field.key}>
-                                                                                <c-jcv-lookup
-                                                                                    data-fieldapiname={field.apiName}
-                                                                                    api-name={field.apiName}
-                                                                                    value={field.fieldValue}
-                                                                                    disabled={field.isReadOnly} 
-                                                                                    time={field.ts}
-                                                                                    required={field.isRequired}
-                                                                                    record-id={recordId}
-                                                                                    record-parent={field.fieldValue}
-                                                                                    object-api-name={objectApiName}
-                                                                                    onchange={handleChange}
-                                                                                    onloaddata={loadParent}>
-                                                                                </c-jcv-lookup>
-                                                                        
-                                                                            </div>
-                                                                        </template>
-                                                                        <template if:false={field.metadata.isReference}>
-                                                                            <lightning-input-field 
-                                                                                key={field.key}
-                                                                                data-fieldapiname={field.apiName}
-                                                                                variant= "label-inline"
-                                                                                required={field.metadata.computedIsRequired}
-                                                                                disabled={field.metadata.computedIsReadOnly}
-                                                                                field-name={field.apiName}
-                                                                                value={field.fieldValue}
-                                                                                onchange={handleField}>
-                                                                            </lightning-input-field>
-                                                                        
-                                                                        
-                                                                        </template>
-                                                                                                                    
-                                                                    </template>
+                                                        <template if:true={field.isCombo}>
+                                                            <lightning-combobox
+                                                                name={field.apiName}
+                                                                key={field.apiName}
+                                                                label={field.label}
+                                                                value={field.fieldValue}
+                                                                placeholder="Select"
+                                                                options={field.values} 
+                                                                onchange={handleField}>
+                                                            </lightning-combobox>
                                                         </template>
-                                                    </div>
+                                                        <template if:true={field.isRadio}>
+                                                            <lightning-radio-group 
+                                                                name={field.apiName}
+                                                                key={field.apiName}
+                                                                label={field.label}
+                                                                options={field.values}
+                                                                value={field.fieldValue}
+                                                                type="radio"
+                                                                onchange={handleField}>
+                                                            </lightning-radio-group>
+                                                        </template>
+
+
+
+                                                    </template>
+
+
                                                 </div>
-                                                </lightning-record-edit-form>
+
+                                            </template>
+                                            <template if:false={sectionsLayout.fakeFields}>
+                                                <lightning-accordion-section name={sectionsLayout.id} label={sectionsLayout.heading} key={sectionsLayout.id}>
+                                            
+                                                    <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} style="width: 100%;" >
+                                                        <div class="slds-grid">
+                                                            <div class="slds-col slds-size_1-of-2">
+                                                                <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
+                                                                            <template if:true={field.boleanoColumnas}>
+                                                                                <template if:true={field.metadata.isReference}>
+                                                                                    <div class="lgc-bg" key={field.key}>
+                                                                                        <c-jcv-lookup
+                                                                                            data-fieldapiname={field.apiName}
+                                                                                            api-name={field.apiName}
+                                                                                            value={field.fieldValue}
+                                                                                            disabled={field.isReadOnly} 
+                                                                                            time={field.ts}
+                                                                                            required={field.isRequired}
+                                                                                            record-id={recordId}
+                                                                                            record-parent={field.fieldValue}
+                                                                                            object-api-name={objectApiName}
+                                                                                            onchange={handleChange}
+                                                                                            onloaddata={loadParent}>
+                                                                                        </c-jcv-lookup>
+                                                                                    </div>
+                                                                                </template>
+                                                                                <template if:false={field.metadata.isReference}>
+                                                                                
+                                                                                    
+                                                                                    <lightning-input-field 
+                                                                                        key={field.key}
+                                                                                        data-fieldapiname={field.apiName}
+                                                                                        variant= "label-inline"
+                                                                                        required={field.metadata.computedIsRequired}
+                                                                                        disabled={field.metadata.computedIsReadOnly}
+                                                                                        field-name={field.apiName}
+                                                                                        value={field.fieldValue}
+                                                                                        onchange={handleField}>
+                                                                                    </lightning-input-field>
+                                                                                </template>
+                                                                            </template>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-size_1-of-2">
+                                                                <template for:each={sectionsLayout.lstFields} for:item="field" for:index="index">                            
+                                                                            <template if:false={field.boleanoColumnas}>
                     
-                    
-                    
-                                        
-                                        </lightning-accordion-section>
+                                                                                <template if:true={field.metadata.isReference}>
+                                                                                    <div class="lgc-bg" key={field.key}>
+                                                                                        <c-jcv-lookup
+                                                                                            data-fieldapiname={field.apiName}
+                                                                                            api-name={field.apiName}
+                                                                                            value={field.fieldValue}
+                                                                                            disabled={field.isReadOnly} 
+                                                                                            time={field.ts}
+                                                                                            required={field.isRequired}
+                                                                                            record-id={recordId}
+                                                                                            record-parent={field.fieldValue}
+                                                                                            object-api-name={objectApiName}
+                                                                                            onchange={handleChange}
+                                                                                            onloaddata={loadParent}>
+                                                                                        </c-jcv-lookup>
+                                                                                
+                                                                                    </div>
+                                                                                </template>
+                                                                                <template if:false={field.metadata.isReference}>
+                                                                                    <lightning-input-field 
+                                                                                        key={field.key}
+                                                                                        data-fieldapiname={field.apiName}
+                                                                                        variant= "label-inline"
+                                                                                        required={field.metadata.computedIsRequired}
+                                                                                        disabled={field.metadata.computedIsReadOnly}
+                                                                                        field-name={field.apiName}
+                                                                                        value={field.fieldValue}
+                                                                                        onchange={handleField}>
+                                                                                    </lightning-input-field>
+                                                                                
+                                                                                
+                                                                                </template>
+                                                                                                                            
+                                                                            </template>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                        </lightning-record-edit-form>
+                            
+                            
+                            
+                                                
+                                                </lightning-accordion-section>
+                                            </template>
+
+                                        </template>
+
                                     </template>
                                 </lightning-accordion>
                     

@@ -44,4 +44,16 @@ export default class JcvValidatorClass  {
       getFalse(paramJson){
         return false;
       }
+      isTrue(paramJson){
+        var param1 =  paramJson.params[0].value;
+        if(param1 == true)
+          return true;
+       return false;
+      }
+      isFalse(paramJson){
+        var param1 =  paramJson.params[0].value;
+        if(param1 == false)
+          return true;
+       return false;
+      }
 }
