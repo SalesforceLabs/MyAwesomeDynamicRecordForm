@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ContactDefault</label>
+    <protected>false</protected>
+    <values>
+        <field>jcvConfiguration__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>jsonRules__c</field>
+        <value xsi:type="xsd:string">{
+      &quot;Phone&quot;: {
+        &quot;actions&quot;: [
+          {
+            &quot;conditions&quot;: [
+              {
+                &quot;method&quot;: &quot;getTrue&quot;,
+                &quot;params&quot;: []
+              }
+            ],
+            &quot;logic&quot;: &quot;AND&quot;,
+            &quot;events&quot;: [
+              {
+                &quot;field&quot;: &quot;HomePhone&quot;,
+                &quot;readonly&quot;: {
+                  &quot;conditions&quot;: [
+                    {
+                      &quot;method&quot;: &quot;isNull&quot;,
+                      &quot;params&quot;: [
+                        {
+                          &quot;name&quot;: &quot;AccountId.Fax&quot;,
+                          &quot;type&quot;: &quot;field&quot;
+                        }
+                      ]
+                    }
+                  ],
+                  &quot;logic&quot;: &quot;AND&quot;
+                },
+                &quot;value&quot;: {
+                  &quot;conditions&quot;: [
+                    {
+                      &quot;method&quot;: &quot;isNull&quot;,
+                      &quot;params&quot;: [
+                        {
+                          &quot;name&quot;: &quot;AccountId.Fax&quot;,
+                          &quot;type&quot;: &quot;field&quot;
+                        }
+                      ]
+                    }
+                  ],
+                  &quot;logic&quot;: &quot;AND&quot;,
+                  &quot;ValueType&quot;: &quot;field&quot;,
+                  &quot;field&quot;: &quot;Phone&quot;
+                }
+              },
+              {
+                &quot;field&quot;: &quot;Phone&quot;,
+                &quot;required&quot;: {
+                  &quot;conditions&quot;: [
+                    {
+                      &quot;method&quot;: &quot;getTrue&quot;,
+                      &quot;params&quot;: []
+                    }
+                  ],
+                  &quot;logic&quot;: &quot;AND&quot;
+                }
+              }
+            ]
+          }
+        ]
+      }
+}</value>
+    </values>
+    <values>
+        <field>objectName__c</field>
+        <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>profileName__c</field>
+        <value xsi:type="xsd:string">*</value>
+    </values>
+    <values>
+        <field>recordTypeName__c</field>
+        <value xsi:type="xsd:string">Master</value>
+    </values>
+</CustomMetadata>

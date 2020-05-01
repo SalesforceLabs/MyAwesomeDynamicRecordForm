@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ContactoRT</label>
+    <protected>false</protected>
+    <values>
+        <field>jcvConfiguration__c</field>
+        <value xsi:type="xsd:string">{
+  &quot;fields&quot;: [
+    {
+      &quot;isEqualAddress&quot;: {
+        &quot;fieldValue&quot;: false
+      },
+      &quot;apiName&quot;: &quot;isEqualAddress&quot;,
+      &quot;label&quot;: &quot;Direcciones Iguales&quot;,
+      &quot;isToogle&quot;: true,
+      &quot;fieldValue&quot;: false
+    }
+  ]
+}</value>
+    </values>
+    <values>
+        <field>jsonRules__c</field>
+        <value xsi:type="xsd:string">{
+&quot;MailingStreet&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;MailingCity&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingStreet&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingStreet&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherStreet&quot;,
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingStreet&quot;
+}
+}
+]
+}
+]
+},
+&quot;MailingCity&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;MailingState&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingCity&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingCity&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherCity&quot;,
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingCity&quot;
+}
+}
+]
+}
+]
+},
+&quot;MailingState&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;MailingPostalCode&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingState&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingState&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherState&quot;,
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingState&quot;
+}
+}
+]
+}
+]
+},
+&quot;MailingPostalCode&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;MailingCountry&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingPostalCode&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;MailingPostalCode&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherPostalCode&quot;,
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingPostalCode&quot;
+}
+}
+]
+}
+]
+},
+&quot;MailingCountry&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherCountry&quot;,
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingCountry&quot;
+}
+}
+]
+}
+]
+},
+&quot;isEqualAddress&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherStreet&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingStreet&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherCity&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingCity&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherState&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingState&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherPostalCode&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingPostalCode&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherCountry&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;field&quot;,
+&quot;field&quot;: &quot;MailingCountry&quot;
+}
+}
+]
+},
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isFalse&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherStreet&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getFalse&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherCity&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherStreet&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherState&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherCity&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherPostalCode&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherState&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+},
+{
+&quot;field&quot;: &quot;OtherCountry&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherPostalCode&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+}
+]
+}
+]
+},
+&quot;OtherStreet&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherCity&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherStreet&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherStreet&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+}
+]
+},
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherCity&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+}
+]
+}
+]
+},
+&quot;OtherCity&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherState&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherCity&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherCity&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+}
+]
+},
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherState&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+}
+]
+}
+]
+},
+&quot;OtherState&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherPostalCode&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherState&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherState&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+}
+]
+},
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherPostalCode&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+}
+]
+}
+]
+},
+&quot;OtherPostalCode&quot;: {
+&quot;actions&quot;: [
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherCountry&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherPostalCode&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+},
+&quot;value&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isNull&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;OtherPostalCode&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;ValueType&quot;: &quot;value&quot;,
+&quot;value&quot;: &quot;&quot;
+}
+}
+]
+},
+{
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;isTrue&quot;,
+&quot;params&quot;: [
+{
+&quot;name&quot;: &quot;isEqualAddress&quot;,
+&quot;type&quot;: &quot;field&quot;
+}
+]
+}
+],
+&quot;logic&quot;: &quot;AND&quot;,
+&quot;events&quot;: [
+{
+&quot;field&quot;: &quot;OtherCountry&quot;,
+&quot;readonly&quot;: {
+&quot;conditions&quot;: [
+{
+&quot;method&quot;: &quot;getTrue&quot;,
+&quot;params&quot;: []
+}
+],
+&quot;logic&quot;: &quot;AND&quot;
+}
+}
+]
+}
+]
+}
+}</value>
+    </values>
+    <values>
+        <field>objectName__c</field>
+        <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>profileName__c</field>
+        <value xsi:type="xsd:string">*</value>
+    </values>
+    <values>
+        <field>recordTypeName__c</field>
+        <value xsi:type="xsd:string">Contacto</value>
+    </values>
+</CustomMetadata>

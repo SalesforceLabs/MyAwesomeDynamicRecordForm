@@ -30,6 +30,10 @@
                 <behavior>Edit</behavior>
                 <field>objectName__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>jcvConfiguration__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
