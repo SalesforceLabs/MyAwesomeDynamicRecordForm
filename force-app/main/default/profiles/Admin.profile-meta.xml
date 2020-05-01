@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TestRecordTypeSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TestRulesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -53,8 +57,24 @@
         <recordType>Contact.Contacto</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>jcvExample__c-jcvExample Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>jcvExample__c-jcvExample Layout</layout>
+        <recordType>jcvExample__c.Dummy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>jcvRules__mdt-jcvRule Layout</layout>
     </layoutAssignments>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>jcvExample__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Contact.Asistente</recordType>
@@ -64,6 +84,11 @@
         <default>true</default>
         <recordType>Contact.Contacto</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>jcvExample__c.Dummy</recordType>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
