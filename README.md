@@ -13,10 +13,10 @@ This is done in the custom metadata type **jcvRule**:
 | recordTypeName |recordTypeName__c|  	Text(255)	 | 
  
  If a rule applies to all the profiles you can set the profile to *. 
- (Currently there are no validation in the json format or salesforce's references so be carefull)
+ (Currently there are no validation in the json format or salesforce's references so be careful)
  
 ### jcvConfiguration
-In this json you can add aditional field to your form to after create a interaction. The json is an array of fields. 
+In this json you can add additional field to your form to after create an interaction. The json is an array of fields. 
 ```javascript
 {
   "fields": [...]
