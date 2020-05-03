@@ -1,58 +1,1147 @@
-# Salesforce App
+#  Awesome Dynamic Form
+The Awesome Dynamic Form is designed to be a generic record form with interactive capabilities. You can define a parametrization for a combination of object/recordType/Profine with:
+  - Non object fields: Aditional auxiliar custom fields to support somo funcionalities
+  - Action, condition events to improve fomr's user interactivity
 
-This guide helps Salesforce developers who are new to Visual Studio Code go from zero to a deployed app using Salesforce Extensions for VS Code and Salesforce CLI.
-
-## Part 1: Choosing a Development Model
-
-There are two types of developer processes or models supported in Salesforce Extensions for VS Code and Salesforce CLI. These models are explained below. Each model offers pros and cons and is fully supported.
-
-### Package Development Model
-
-The package development model allows you to create self-contained applications or libraries that are deployed to your org as a single package. These packages are typically developed against source-tracked orgs called scratch orgs. This development model is geared toward a more modern type of software development process that uses org source tracking, source control, and continuous integration and deployment.
-
-If you are starting a new project, we recommend that you consider the package development model. To start developing with this model in Visual Studio Code, see [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model). For details about the model, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) Trailhead module.
-
-If you are developing against scratch orgs, use the command `SFDX: Create Project` (VS Code) or `sfdx force:project:create` (Salesforce CLI)  to create your project. If you used another command, you might want to start over with that command.
-
-When working with source-tracked orgs, use the commands `SFDX: Push Source to Org` (VS Code) or `sfdx force:source:push` (Salesforce CLI) and `SFDX: Pull Source from Org` (VS Code) or `sfdx force:source:pull` (Salesforce CLI). Do not use the `Retrieve` and `Deploy` commands with scratch orgs.
-
-### Org Development Model
-
-The org development model allows you to connect directly to a non-source-tracked org (sandbox, Developer Edition (DE) org, Trailhead Playground, or even a production org) to retrieve and deploy code directly. This model is similar to the type of development you have done in the past using tools such as Force.com IDE or MavensMate.
-
-To start developing with this model in Visual Studio Code, see [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model). For details about the model, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) Trailhead module.
-
-If you are developing against non-source-tracked orgs, use the command `SFDX: Create Project with Manifest` (VS Code) or `sfdx force:project:create --manifest` (Salesforce CLI) to create your project. If you used another command, you might want to start over with this command to create a Salesforce DX project.
-
-When working with non-source-tracked orgs, use the commands `SFDX: Deploy Source to Org` (VS Code) or `sfdx force:source:deploy` (Salesforce CLI) and `SFDX: Retrieve Source from Org` (VS Code) or `sfdx force:source:retrieve` (Salesforce CLI). The `Push` and `Pull` commands work only on orgs with source tracking (scratch orgs).
-
-## The `sfdx-project.json` File
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-The most important parts of this file for getting started are the `sfdcLoginUrl` and `packageDirectories` properties.
-
-The `sfdcLoginUrl` specifies the default login URL to use when authorizing an org.
-
-The `packageDirectories` filepath tells VS Code and Salesforce CLI where the metadata files for your project are stored. You need at least one package directory set in your file. The default setting is shown below. If you set the value of the `packageDirectories` property called `path` to `force-app`, by default your metadata goes in the `force-app` directory. If you want to change that directory to something like `src`, simply change the `path` value and make sure the directory you’re pointing to exists.
-
-```json
-"packageDirectories" : [
+This is done in the custom metadata type **jcvRule**:
+| Field Label | API Name | Data Type |	
+| ------ | ------ |  ------ | 
+| jcvConfiguration |jcvConfiguration__c|  	Long Text Area(32768)	 | 
+| jsonRules |jsonRules__c|  	Long Text Area(32768)	 | 
+| objectName |objectNamen__c|  	Text(255)	 | 
+|profileName |profileName__c|  	Text(255)	 | 
+| recordTypeName |recordTypeName__c|  	Text(255)	 | 
+ 
+ If a rule applies to all the profiles you can set the profile to *. 
+ (Currently there are no validation in the json format or salesforce's references so be carefull)
+ 
+### jcvConfiguration
+In this json you can add aditional field to your form to after create a interaction. The json is an array of fields. 
+```javascript
+{
+  "fields": [...]
+}
+```
+Currently there are 3 types of fields supported. You can add any of them to the array:
+**Toogle:**
+```javascript
+{
+  "fields": [
     {
-      "path": "force-app",
-      "default": true
+      "field4": {
+        "fieldValue": false
+      },
+      "apiName": "field4",
+      "label": "Compact mode",
+      "isToogle": true,
+      "fieldValue": false
     }
-]
+  ]
+}
+```
+**Combo:**
+```javascript
+{
+  "fields": [
+    {
+      "field2": {
+        "fieldValue": "Compact"
+      },
+      "apiName": "field2",
+      "fieldValue": "Compact",
+      "label": "Formato",
+      "isCombo": true,
+      "values": [
+        {
+          "label": "Compact",
+          "value": "Compact"
+        },
+        {
+          "label": "Full",
+          "value": "Full"
+        }
+      ]
+    }
+  ]
+}
+```
+**Radio:**
+```javascript
+{
+  "fields": [
+    {
+      "field1": {
+        "fieldValue": "Compact"
+      },
+      "apiName": "field1",
+      "fieldValue": "Compact",
+      "label": "Formato",
+      "isRadio": true,
+      "type": " button",
+      "values": [
+        {
+          "label": "Compact",
+          "value": "Compact"
+        },
+        {
+          "label": "Full",
+          "value": "Full"
+        }
+      ]
+    }
+  ]
+}
+```
+### jcvRules
+This is where the magic happens. For each field in the form (real from the object or created in the jcvConfiguration.json) you  define an array of actions which can occur where the field change his value. Each action is compound by
+  - An array of Conditions
+  - Logic of evaluation of conditions (AND or OR)
+  - An array of Events. The possible events are
+    - Set the field value
+    - Set a field read only
+    - Set a field mandatory
+    - Hide a fiels
+
+For example, imagine this requerement; in a contact record form, when you select the 
+the account to which it belongs, if the fax field of the contact is empty, the fax field of the acount had to be auto completed with the Account's fax. You can define this behabier with this json file:
+  
+```javascript
+{
+  "AccountId": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "isNotNull",
+            "params": [
+              {
+                "name": "AccountId.Fax",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "Fax",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "Fax",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "AccountId.Fax"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+Le's analize it by parts:
+  - The trigger field is the Account
+```javascript
+ "AccountId": {
+```
+  - When the account's Fax is not null (**Important!: is it possible to have access to the account's fields**)
+```javascript
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "isNotNull",
+            "params": [
+              {
+                "name": "AccountId.Fax",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+```
+  - We want to modify the Fax field of the contact is it's null
+```javascript
+"events": [
+          {
+            "field": "Fax",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "Fax",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+```
+  - and set the value to the Account's Fax value
+```javascript
+              "ValueType": "field",
+              "field": "AccountId.Fax"
+```
+Some examples of events are:
+ - **Hide a field**
+```javascript
+ "events": [
+          {
+            "field": "OtherStreet",
+            "hide": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isCompact",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+```
+ - **Set read only**
+```javascript
+ "events": [
+          {
+            "field": "OtherCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+```
+ - **Set required**
+```javascript
+"events": [
+          {
+            "field": "Phone",
+            "required": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
 ```
 
-## Part 2: Working with Source
+The Awesome Dynamic Form will read this json and:
+  - Dinamicaly execute the methods defined using a js class (**JcvValidatorClass**). The currently available methods are:
+    - Is great (isGreat, 2 params)
+    - Is equal (isEqual, 2 params)
+    - Is low (isLow, 2 params)
+    - Is Null (isNull, 1 param)
+    - Is Not Null (isNotNull, 1 param)
+    - Allways (getTrue, no param)
+    - Never (getFalse, no param)
+    - Is True (isTrue, 1 param)
+    - Is False (isFalse, 1 param)
+  **If you need to evaluate another condition (for example, the difference between two number is less than X, the only thing to do is add this methos in jcvValidatorClas.js and reference it in jcvRules.json**
+ - Dinamicaly read the field values including the ones in the related objects (only one level), for example, AccountId.Fax
 
-For details about developing against scratch orgs, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) module on Trailhead or [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model).
+The Awesome Dynamic Form uses some @salesforce Modules and base componets to be object independent :
+ - lightning/uiObjectInfoApi
+ - lightning/uiRecordApi
+    - getRecordUi
+    - createRecord
+    - updateRecord
+ - Record Edit Form
 
-For details about developing against orgs that don’t have source tracking, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) module on Trailhead or [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model).
 
-## Part 3: Deploying to Production
 
-Don’t deploy your code to production directly from Visual Studio Code. The deploy and retrieve commands do not support transactional operations, which means that a deployment can fail in a partial state. Also, the deploy and retrieve commands don’t run the tests needed for production deployments. The push and pull commands are disabled for orgs that don’t have source tracking, including production orgs.
+It's possible tho created sophisticated behaviors, like this: the fields in address fields (City, State,...) had to be completed in order and you can choose to auto fill the OtherAddress with the Address values:
+### Configuration
+```javascript
+{
+  "fields": [
+    {
+      "isEqualAddress": {
+        "fieldValue": false
+      },
+      "apiName": "isEqualAddress",
+      "label": "Direcciones Iguales",
+      "isToogle": true,
+      "fieldValue": false
+    }
+  ]
+}
+```
+### Rules
+```javascript
+{
+  "MailingStreet": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "MailingCity",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingStreet",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingStreet",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          },
+          {
+            "field": "OtherStreet",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isEqualAddress",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingStreet"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "MailingCity": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "MailingState",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingCity",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingCity",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          },
+          {
+            "field": "OtherCity",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isEqualAddress",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingCity"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "MailingState": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "MailingPostalCode",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingState",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingState",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          },
+          {
+            "field": "OtherState",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isEqualAddress",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingState"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "MailingPostalCode": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "MailingCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingPostalCode",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "MailingPostalCode",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          },
+          {
+            "field": "OtherPostalCode",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isEqualAddress",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingPostalCode"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "MailingCountry": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherCountry",
+            "value": {
+              "conditions": [
+                {
+                  "method": "isTrue",
+                  "params": [
+                    {
+                      "name": "isEqualAddress",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingCountry"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "isEqualAddress": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "isTrue",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherStreet",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingStreet"
+            }
+          },
+          {
+            "field": "OtherCity",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingCity"
+            }
+          },
+          {
+            "field": "OtherState",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingState"
+            }
+          },
+          {
+            "field": "OtherPostalCode",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingPostalCode"
+            }
+          },
+          {
+            "field": "OtherCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "field",
+              "field": "MailingCountry"
+            }
+          }
+        ]
+      },
+      {
+        "conditions": [
+          {
+            "method": "isFalse",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherStreet",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getFalse",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          },
+          {
+            "field": "OtherCity",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherStreet",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            }
+          },
+          {
+            "field": "OtherState",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherCity",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            }
+          },
+          {
+            "field": "OtherPostalCode",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherState",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            }
+          },
+          {
+            "field": "OtherCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherPostalCode",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "OtherStreet": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherCity",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherStreet",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherStreet",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          }
+        ]
+      },
+      {
+        "conditions": [
+          {
+            "method": "isTrue",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherCity",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "OtherCity": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherState",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherCity",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherCity",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          }
+        ]
+      },
+      {
+        "conditions": [
+          {
+            "method": "isTrue",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherState",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "OtherState": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherPostalCode",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherState",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherState",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          }
+        ]
+      },
+      {
+        "conditions": [
+          {
+            "method": "isTrue",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherPostalCode",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "OtherPostalCode": {
+    "actions": [
+      {
+        "conditions": [
+          {
+            "method": "getTrue",
+            "params": []
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherPostalCode",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND"
+            },
+            "value": {
+              "conditions": [
+                {
+                  "method": "isNull",
+                  "params": [
+                    {
+                      "name": "OtherPostalCode",
+                      "type": "field"
+                    }
+                  ]
+                }
+              ],
+              "logic": "AND",
+              "ValueType": "value",
+              "value": ""
+            }
+          }
+        ]
+      },
+      {
+        "conditions": [
+          {
+            "method": "isTrue",
+            "params": [
+              {
+                "name": "isEqualAddress",
+                "type": "field"
+              }
+            ]
+          }
+        ],
+        "logic": "AND",
+        "events": [
+          {
+            "field": "OtherCountry",
+            "readonly": {
+              "conditions": [
+                {
+                  "method": "getTrue",
+                  "params": []
+                }
+              ],
+              "logic": "AND"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+### Todos
+ - More Test
+ - Write  Tests
+ - Json validations
+ - Json generation tools
 
-Deploy your changes to production using [packaging](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_dev2gp.htm) or by [converting your source](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_source.htm#cli_reference_convert) into metadata format and using the [metadata deploy command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_mdapi.htm#cli_reference_deploy).
+License
+----
+
+MIT

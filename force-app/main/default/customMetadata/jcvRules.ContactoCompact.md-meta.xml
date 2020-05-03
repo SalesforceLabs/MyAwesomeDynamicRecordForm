@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ContactoCompact</label>
+    <protected>false</protected>
+    <values>
+        <field>jcvConfiguration__c</field>
+        <value xsi:type="xsd:string">{
+&quot;fields&quot;: [
+{
+&quot;isCompact&quot;: {
+&quot;fieldValue&quot;: false
+},
+&quot;apiName&quot;: &quot;isCompact&quot;,
+&quot;label&quot;: &quot;Compact Form&quot;,
+&quot;isToogle&quot;: true,
+&quot;fieldValue&quot;: false
+}
+]
+}</value>
+    </values>
+    <values>
+        <field>jsonRules__c</field>
+        <value xsi:type="xsd:string">{
+  &quot;isCompact&quot;: {
+    &quot;actions&quot;: [
+      {
+        &quot;conditions&quot;: [
+          {
+            &quot;method&quot;: &quot;getTrue&quot;,
+            &quot;params&quot;: [
+            ]
+          }
+        ],
+        &quot;logic&quot;: &quot;AND&quot;,
+        &quot;events&quot;: [
+          {
+            &quot;field&quot;: &quot;OtherStreet&quot;,
+            &quot;hide&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isTrue&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;isCompact&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;
+            }
+          },
+          {
+            &quot;field&quot;: &quot;OtherCity&quot;,
+            &quot;hide&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isTrue&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;isCompact&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;
+            }
+          },
+          {
+            &quot;field&quot;: &quot;OtherState&quot;,
+            &quot;hide&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isTrue&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;isCompact&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;
+            }
+          },
+          {
+            &quot;field&quot;: &quot;OtherPostalCode&quot;,
+            &quot;hide&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isTrue&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;isCompact&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;
+            }
+          },
+          {
+            &quot;field&quot;: &quot;OtherCountry&quot;,
+            &quot;hide&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isTrue&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;isCompact&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;
+            }
+          }
+        ]
+      }
+    ]
+  }
+}</value>
+    </values>
+    <values>
+        <field>objectName__c</field>
+        <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>profileName__c</field>
+        <value xsi:type="xsd:string">*</value>
+    </values>
+    <values>
+        <field>recordTypeName__c</field>
+        <value xsi:type="xsd:string">Contacto</value>
+    </values>
+</CustomMetadata>

@@ -21,6 +21,7 @@ export default class JcvNewRecordForm extends LightningElement {
 
     @track recordTypeId = '';    //fields to store record type Id
     @track recordIdCopy;
+    recTypeName;
 
     //fields boolen to control rendering
     @track cargado = false;      
@@ -38,7 +39,7 @@ export default class JcvNewRecordForm extends LightningElement {
     sectionsInForm = new Map();
     @track formulario={};
 
-    loadingRules = false;
+    loadRules = true;
 
     _response;
 
@@ -168,21 +169,22 @@ export default class JcvNewRecordForm extends LightningElement {
             LayoutSection.lstFields = [];
             SectionList.push(LayoutSection);
 
-            if(!this.loadingRules) 
+
+            if(record.recordTypeInfo)
             {
-                if(record.recordTypeInfo)
-                {
-                    this.recordTypeId = record.recordTypeId;
-                    console.log(this.recordTypeId);
-                    var rtName = record.recordTypeInfo.name;
-                    this.getRtRules(rtName);
-                }
-                else
-                {
-                    console.log('getRtRules para master');
-                    this.getRtRules('Master');
-                }
+                this.recordTypeId = record.recordTypeId;
+                console.log(this.recordTypeId);
+                var rtName = record.recordTypeInfo.name;
+                this.recTypeName = rtName;
+                //this.getRtRules(rtName);
             }
+            else
+            {
+                console.log('getRtRules para master');
+                //this.getRtRules('Master');
+                this.recTypeName = 'Master';
+            }
+            
 
             listLayout = data.layouts[this.objectApiName][Object.keys(data.layouts[this.objectApiName])].Full.Edit.sections;
   
@@ -269,7 +271,7 @@ export default class JcvNewRecordForm extends LightningElement {
 
             console.log('Inicializando dcRecordUi...');
             
-            if(!this.rules  && !this.loadingRules){
+            if(!this.rules){
                 LayoutSection = {};
                 LayoutSection.id = 'aux';
                 LayoutSection.heading = 'campos auxiliares';
@@ -297,20 +299,20 @@ export default class JcvNewRecordForm extends LightningElement {
                 SectionList.push(LayoutSection);
             }
 
-            if(!this.rules  && !this.loadingRules)
-            {
                 if(this.recordTypeId && this.recordTypeId !='')
                 {
                     console.log(this.recordTypeId);
                     var rtName = this.jsonRt[this.recordTypeId];
-                    this.getRtRules(rtName);
+                    //this.getRtRules(rtName);
+                    this.recTypeName = rtName;
                 }
                 else
                 {
                     console.log('getRtRules para master');
-                    this.getRtRules('Master');
+                    //this.getRtRules('Master');
+                    this.recTypeName = 'Master';
                 }
-            }
+            
 
             var listLayout = data.layout.sections;
 
@@ -365,10 +367,12 @@ export default class JcvNewRecordForm extends LightningElement {
             if (SectionList) {
                 this.infoSectionsLayout = SectionList;
                 this.hasRendered = true;
+                this.doAllActions();
+                /*
                 if(this.rules)
                 {
                     this.doAllActions();
-                }
+                }*/
             }
             
             console.log('Finalizado dcRecordUi...');
@@ -472,14 +476,15 @@ export default class JcvNewRecordForm extends LightningElement {
 
         Field.metadata.computedIsReadOnly = Field.isReadOnly;
         Field.metadata.computedIsRequired = Field.isRequired;
+        Field.metadata.isHide = false;
 
         return Field;
 
 
     }
 
+    
     getRtRules(recordType) {
-        this.loadingRules = true;
         console.log('dentro de getRtRules');
         getRules({objectName: this.objectApiName, recordTypeName: recordType})
             .then(result => {
@@ -496,7 +501,7 @@ export default class JcvNewRecordForm extends LightningElement {
                         for(var i=0; i<config.fields.length; i++)
                         {
                             this.infoSectionsLayout[0].lstFields.push(config.fields[i]);
-                            this.formulario[config.fields[i].apiName] = {"posicion":i, "seccion": 0, "value": config.fields[i].fieldValue};
+                            this.formulario[config.fields[i].apiName] = {"fieldFake": true,"posicion":i, "seccion": 0, "value": config.fields[i].fieldValue};
                         }
 
                     }
@@ -522,10 +527,10 @@ export default class JcvNewRecordForm extends LightningElement {
     handleChangeRt(event) {
         this.recordTypeId = event.detail.value;
         var rtName = this.jsonRt[this.recordTypeId];
-        this.loadingRules = true;
-        this.rules ={};
+        this.loadRules = true;
+        this.rules = {};
         this.configuration={};
-        this.getRtRules(rtName);
+        //this.getRtRules(rtName);
     }
 
     handleClick(evt){
@@ -541,11 +546,15 @@ export default class JcvNewRecordForm extends LightningElement {
           console.log('field es ' + field);
           var seccion = this.formulario[field].seccion;
           var posicion = this.formulario[field].posicion;
+
+          var fieldFake = false;
+          if(this.formulario[field].fieldFake)
+             fieldFake = true;
   
           var noUpdateable = this.infoSectionsLayout[seccion].lstFields[posicion].isReadOnly;
           console.log('noUpdateable es ' + noUpdateable);
   
-          if(!noUpdateable){
+          if(!noUpdateable && !fieldFake){
             fields[field]=((this.infoSectionsLayout[seccion].lstFields[posicion])[field]).fieldValue;
           }
   
@@ -617,9 +626,6 @@ export default class JcvNewRecordForm extends LightningElement {
         var myParam = {};
         myParam.params=[];
         var myParamArray = new Array();
-  
-  
-  
   
         for(var i =0; i< condition.params.length; i++){
       
@@ -718,6 +724,9 @@ export default class JcvNewRecordForm extends LightningElement {
           if(events[i].required) {
             this.doRequired(campo, events[i].required);
           }
+          if(events[i].hide) {
+            this.doHide(campo, events[i].hide);
+          }
           if(events[i].value) {
             this.doValue(campo, events[i].value);
           }
@@ -736,9 +745,20 @@ export default class JcvNewRecordForm extends LightningElement {
         if(result){
           if(type == 'field'){
             var campo = event.field;
-            var sec = this.formulario[campo].seccion;
-            var pos = this.formulario[campo].posicion;
-            value = ((this.infoSectionsLayout[sec].lstFields[pos])[campo]).fieldValue;
+
+            var paramPath = campo.split(".");
+            var poramRoot = paramPath[0];
+
+            var sec = this.formulario[poramRoot].seccion;
+            var pos = this.formulario[poramRoot].posicion;
+
+            var myJson = this.infoSectionsLayout[sec].lstFields[pos];
+
+            for(var j =0; j<paramPath.length; j++){
+                myJson = myJson[paramPath[j]];
+              }
+
+            value = myJson.fieldValue;
   
   
           }else if(type == 'value'){
@@ -754,7 +774,7 @@ export default class JcvNewRecordForm extends LightningElement {
     }
   
     doRequired(field, event)
-      {
+    {
   
         var seccion = this.formulario[field].seccion;
         var posicion = this.formulario[field].posicion;
@@ -766,6 +786,21 @@ export default class JcvNewRecordForm extends LightningElement {
         
         result = result || this.infoSectionsLayout[seccion].lstFields[posicion].isRequired;     
         this.infoSectionsLayout[seccion].lstFields[posicion].metadata.computedIsRequired = result;
+  
+    }
+
+    doHide(field, event)
+    {
+  
+        var seccion = this.formulario[field].seccion;
+        var posicion = this.formulario[field].posicion;
+        console.log('seccion es ' + seccion);
+        console.log('posicion es ' + posicion);
+        console.log('campo es ' + JSON.stringify(this.infoSectionsLayout[seccion].lstFields[posicion]));
+        
+        var result = this.doConditions(event.conditions, event.logic); 
+          
+        this.infoSectionsLayout[seccion].lstFields[posicion].metadata.isHide = result;
   
     }
 
@@ -805,13 +840,58 @@ export default class JcvNewRecordForm extends LightningElement {
 
         }
         if(loaded){
-            for (var action in this.rules) {
-                if(this.formulario[action])
-                {
-                  this.doTheWork(action);
+
+            if(this.loadRules)
+            {
+                console.log('dentro de getRtRules');
+                getRules({objectName: this.objectApiName, recordTypeName: this.recTypeName})
+                    .then(result => {
+                        this.loadRules = false;
+        
+                        if(result.length>0)
+                        {
+                            this.rules = JSON.parse(result[0]);
+                            if(result.length>1){
+                                var config = JSON.parse(result[1]);
+                                this.configuration = config;
+            
+                                if(this.configValues != ''){
+            
+                                    this.infoSectionsLayout[0].show = true; 
+                                    this.infoSectionsLayout[0].lstFields = [];
+                                    for(var i=0; i<config.fields.length; i++)
+                                    {
+                                        this.infoSectionsLayout[0].lstFields.push(config.fields[i]);
+                                        this.formulario[config.fields[i].apiName] = {"fieldFake": true, "posicion":i, "seccion": 0, "value": config.fields[i].fieldValue};
+                                    }
+            
+                                }
+                            }
+
+                            for (var action in this.rules) {
+                                if(this.formulario[action])
+                                {
+                                    this.doTheWork(action);
+                                }
+                                
+                            }
+
+                        }
+
+                    })
+                    .catch(error => {
+                        this.error = error;
+                    });
+            }
+            else{
+                for (var action in this.rules) {
+                    if(this.formulario[action])
+                    {
+                        this.doTheWork(action);
+                    }
+                    
                 }
-                
-              }
+            }
 
         }
 
@@ -859,13 +939,17 @@ export default class JcvNewRecordForm extends LightningElement {
           console.log('field es ' + field);
           var seccion = this.formulario[field].seccion;
           var posicion = this.formulario[field].posicion;
+          
+          var fieldFake = false;
+          if(this.formulario[field].fieldFake)
+             fieldFake = true;
   
           var noUpdateable = this.infoSectionsLayout[seccion].lstFields[posicion].isReadOnly;
           console.log('noUpdateable es ' + noUpdateable);
 
           var value = ((this.infoSectionsLayout[seccion].lstFields[posicion])[field]).fieldValue;
   
-          if(!noUpdateable && value !=''){
+          if(!noUpdateable && value !=''  && !fieldFake ){
             fields[field]=value;
           }
           

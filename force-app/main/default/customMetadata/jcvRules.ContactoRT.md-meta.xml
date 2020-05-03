@@ -870,6 +870,6 @@
     </values>
     <values>
         <field>recordTypeName__c</field>
-        <value xsi:type="xsd:string">Contacto</value>
+        <value xsi:type="xsd:string">Master</value>
     </values>
 </CustomMetadata>

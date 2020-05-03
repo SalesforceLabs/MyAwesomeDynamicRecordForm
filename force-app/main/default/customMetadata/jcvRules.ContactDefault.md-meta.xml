@@ -9,66 +9,45 @@
     <values>
         <field>jsonRules__c</field>
         <value xsi:type="xsd:string">{
-      &quot;Phone&quot;: {
-        &quot;actions&quot;: [
+  &quot;AccountId&quot;: {
+    &quot;actions&quot;: [
+      {
+        &quot;conditions&quot;: [
           {
-            &quot;conditions&quot;: [
+            &quot;method&quot;: &quot;isNotNull&quot;,
+            &quot;params&quot;: [
               {
-                &quot;method&quot;: &quot;getTrue&quot;,
-                &quot;params&quot;: []
-              }
-            ],
-            &quot;logic&quot;: &quot;AND&quot;,
-            &quot;events&quot;: [
-              {
-                &quot;field&quot;: &quot;HomePhone&quot;,
-                &quot;readonly&quot;: {
-                  &quot;conditions&quot;: [
-                    {
-                      &quot;method&quot;: &quot;isNull&quot;,
-                      &quot;params&quot;: [
-                        {
-                          &quot;name&quot;: &quot;AccountId.Fax&quot;,
-                          &quot;type&quot;: &quot;field&quot;
-                        }
-                      ]
-                    }
-                  ],
-                  &quot;logic&quot;: &quot;AND&quot;
-                },
-                &quot;value&quot;: {
-                  &quot;conditions&quot;: [
-                    {
-                      &quot;method&quot;: &quot;isNull&quot;,
-                      &quot;params&quot;: [
-                        {
-                          &quot;name&quot;: &quot;AccountId.Fax&quot;,
-                          &quot;type&quot;: &quot;field&quot;
-                        }
-                      ]
-                    }
-                  ],
-                  &quot;logic&quot;: &quot;AND&quot;,
-                  &quot;ValueType&quot;: &quot;field&quot;,
-                  &quot;field&quot;: &quot;Phone&quot;
-                }
-              },
-              {
-                &quot;field&quot;: &quot;Phone&quot;,
-                &quot;required&quot;: {
-                  &quot;conditions&quot;: [
-                    {
-                      &quot;method&quot;: &quot;getTrue&quot;,
-                      &quot;params&quot;: []
-                    }
-                  ],
-                  &quot;logic&quot;: &quot;AND&quot;
-                }
+                &quot;name&quot;: &quot;AccountId.Fax&quot;,
+                &quot;type&quot;: &quot;field&quot;
               }
             ]
           }
+        ],
+        &quot;logic&quot;: &quot;AND&quot;,
+        &quot;events&quot;: [
+          {
+            &quot;field&quot;: &quot;Fax&quot;,
+            &quot;value&quot;: {
+              &quot;conditions&quot;: [
+                {
+                  &quot;method&quot;: &quot;isNull&quot;,
+                  &quot;params&quot;: [
+                    {
+                      &quot;name&quot;: &quot;Fax&quot;,
+                      &quot;type&quot;: &quot;field&quot;
+                    }
+                  ]
+                }
+              ],
+              &quot;logic&quot;: &quot;AND&quot;,
+              &quot;ValueType&quot;: &quot;field&quot;,
+              &quot;field&quot;: &quot;AccountId.Fax&quot;
+            }
+          }
         ]
       }
+    ]
+  }
 }</value>
     </values>
     <values>
@@ -81,6 +60,6 @@
     </values>
     <values>
         <field>recordTypeName__c</field>
-        <value xsi:type="xsd:string">Master</value>
+        <value xsi:type="xsd:string">Asistente</value>
     </values>
 </CustomMetadata>
