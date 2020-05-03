@@ -263,7 +263,8 @@ The Awesome Dynamic Form will read this json and:
     - Never (getFalse, no param)
     - Is True (isTrue, 1 param)
     - Is False (isFalse, 1 param)
-  **If you need to evaluate another condition (for example, the difference between two number is less than X, the only thing to do is add this methos in jcvValidatorClas.js and reference it in jcvRules.json**
+
+**If you need to evaluate another condition (for example, the difference between two number is less than X, the only thing to do is add this methos in jcvValidatorClas.js and reference it in jcvRules.json**
  - Dinamicaly read the field values including the ones in the related objects (only one level), for example, AccountId.Fax
 
 The Awesome Dynamic Form uses some @salesforce Modules and base componets to be object independent :
