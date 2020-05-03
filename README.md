@@ -1,6 +1,6 @@
 #  Awesome Dynamic Form!
-The Awesome Dynamic Form is designed to be a generic record form with interactive capabilities. You can define a parametrization for a combination of object/recordType/Profine with:
-  - Non object fields: Aditional auxiliar custom fields to support somo funcionalities
+The Awesome Dynamic Form is designed to be a generic record form with interactive capabilities. You can define a parametrization for a combination of object/recordType/Profile with:
+  - Non object fields: Aditional auxiliar custom fields to support some functionalities
   - Action, condition events to improve fomr's user interactivity
 
 This is done in the custom metadata type **jcvRule**:
